@@ -32,7 +32,9 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
@@ -181,15 +183,12 @@ fun HomeScreen(navToInventory: () -> Unit,
                appDatabase: AppDatabase) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            HomeScreenItem(painterResourceId = R.drawable.ic_inventory, itemText = "View inventory") { navToInventory() }
-            HomeScreenItem(painterResourceId = R.drawable.ic_add, itemText = "Add items") { navToAddItem() }
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            HomeScreenItem(painterResourceId = R.drawable.ic_camera, itemText = "Barcode test") { navToCamera() }
-            HomeScreenItem(painterResourceId = R.drawable.ic_inventory, itemText = "Nothing yet 2") { }
-        }
+        HomeScreenItem(painterResourceId = R.drawable.ic_add, itemText = "Add") { navToCamera() }
+        HomeScreenItem(painterResourceId = R.drawable.ic_remove, itemText = "Remove") { }
+        HomeScreenItem(painterResourceId = R.drawable.ic_inventory, itemText = "View inventory") { navToInventory() }
+        //HomeScreenItem(painterResourceId = R.drawable.ic_add, itemText = "Add manually") { navToAddItem() }
 
+        /*
         Button(onClick = {
             val temp1 = BarcodeInfo(null, 5053990139545, "Pringles", GroceryCategory.NoCategory.toString())
             val temp2 = BarcodeInfo(null, 5053990139545, "Pringles", GroceryCategory.NoCategory.toString())
@@ -211,6 +210,8 @@ fun HomeScreen(navToInventory: () -> Unit,
 
             }
         }) { Text(text = "TEST READ") }
+
+        */
 
     }
 }
@@ -291,17 +292,23 @@ fun InventoryScreen(groceries: List<Grocery> = List(10) { Grocery(id = it) },
 
 @Composable
 fun InventoryListItem(grocery: Grocery) {
-    Row() {
-        Text(text = grocery.name, Modifier.weight(1f))
-        Text(text = "ID: ${grocery.id}")
-        Text(text = "Category: ${grocery.category.name}")
+    Surface(modifier = Modifier.fillMaxSize().padding(5.dp), color = MaterialTheme.colorScheme.secondary) {
+        Column() {
+            Text(text = "${grocery.name}", fontSize = 16.sp, modifier = Modifier.padding(5.dp))
+            Row() {
+                Text(text = "Category: ${grocery.category.name}", modifier = Modifier
+                    .weight(1f)
+                    .padding(5.dp), fontSize = 12.sp)
+                Text(text = "Expiry: ${grocery.expirationDate}", modifier = Modifier.padding(5.dp), fontSize = 12.sp)
+            }
+        }
     }
 }
 
 @Composable
 fun InventoryDetailItem(grocery: Grocery) {
     Column {
-        Text(text = grocery.name)
+        Text(text = grocery.name, fontSize = 16.sp)
         Text(text = "Category: ${grocery.category.name}")
         Text(text = "Barcode: ${grocery.barcode}")
         Text(text = "Bought: ${grocery.boughtDate}")

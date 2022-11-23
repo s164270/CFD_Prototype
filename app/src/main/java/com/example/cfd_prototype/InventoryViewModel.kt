@@ -62,7 +62,8 @@ class InventoryViewModel : ViewModel() {
         //groceries.clear()
         groceries.addAll(
             listOf(
-                Grocery(id = 0, barcode = 11, name = "Toastbrød", category = GroceryCategory.Dairy)
+                Grocery(id = 0, barcode = 11123123123, name = "Toastbrød", category = GroceryCategory.Dairy),
+                Grocery(id = 1, barcode = 12123123123, name = "Oksekød", category = GroceryCategory.Meat),
                 )
         )
     }
